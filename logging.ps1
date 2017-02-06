@@ -25,8 +25,7 @@
 	Modified: 6/2/2017 09:30:00 AM
 	
 	Changelog: 
-    * Code simplification and clarification 
-    * Added documentation
+    	* Code simplification and clarification
 
 .LINK
 	http://www.helmink.net
@@ -35,76 +34,75 @@
 
 Function Write-Log
 {
-  [CmdletBinding()]
-	Param 
-	(
-	  [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)] 
-    [ValidateNotNullOrEmpty()]
-    [string]$Message,
+	[CmdletBinding()]
+	Param (
+  		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)] 
+		[ValidateNotNullOrEmpty()]
+		[string]$Message,
 
-    [Parameter(Mandatory=$false)]
-    [string]$Path="C:\Logs\PowerShell.log",	
+		[Parameter(Mandatory=$false)]
+		[string]$Path="C:\Logs\PowerShell.log",	
 
-    [Parameter(Mandatory=$false)]
-		[ValidateSet("Error","Warn","Info")]
-    [string]$Level="Info",	 
+    		[Parameter(Mandatory=$false)]
+    		[ValidateSet("Error","Warn","Info")]
+    		[string]$Level="Info",	 
  
-    [Parameter(Mandatory=$false)] 
-    [switch]$NoClobber 
+    		[Parameter(Mandatory=$false)] 
+    		[switch]$NoClobber 
 	)
  
-  Begin 
-  { 
-    # Set VerbosePreference to Continue so that verbose messages are displayed 
-    $VerbosePreference = 'Continue' 
-  }
+  	Begin 
+  	{ 
+    		# Set VerbosePreference to Continue so that verbose messages are displayed 
+    		$VerbosePreference = 'Continue' 
+  	}
 	
-  Process 
-  {     
-    # If the file already exists and NoClobber was specified, do not write to the log 
-    If ((Test-Path $Path) -AND $NoClobber) 
+  	Process 
+  	{     
+    		# If the file already exists and NoClobber was specified, do not write to the log 
+    		If ((Test-Path $Path) -AND $NoClobber) 
 		{
-      Write-Error "Log file $Path already exists, and you specified NoClobber. Either delete the file or specify a different name." 
-      Return
-    } 
+      			Write-Error "Log file $Path already exists, and you specified NoClobber. Either delete the file or specify a different name." 
+      			Return
+    		} 
 
-    # If attempting to write to a log file in a folder/path that doesn't exist create the file including the path 
-    ElseIf (!(Test-Path $Path)) 
+    		# If attempting to write to a log file in a folder/path that doesn't exist create the file including the path 
+   		ElseIf (!(Test-Path $Path)) 
 		{ 
-      Write-Verbose "Creating $Path." 
-      New-Item $Path -ItemType File -Force | Out-Null
-    } 
+      			Write-Verbose "Creating $Path." 
+      			New-Item $Path -ItemType File -Force | Out-Null
+    		} 
  
-    Else 
+    		Else 
 		{ 
-      # No action required 
-    } 
+      			# No action required 
+    		} 
  
-    # Format date for log output 
-    $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss" 
+    		# Format date for log output 
+    		$FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss" 
  
-    # Write message to error, warning, or verbose pipeline and specify $LevelText 
-    Switch ($Level) { 
-      'Error' { 
-        Write-Error $Message 
-        $LevelText = 'ERROR:' 
-      } 
-      'Warn' { 
-        Write-Warning $Message 
-        $LevelText = 'WARNING:' 
-      } 
-      'Info' { 
-        Write-Verbose $Message 
-        $LevelText = 'INFO:' 
-      } 
-    } 
+    		# Write message to error, warning, or verbose pipeline and specify $LevelText 
+    		Switch ($Level) { 
+      			'Error' { 
+        			Write-Error $Message 
+        			$LevelText = 'ERROR:' 
+      			} 
+      			'Warn' { 
+       				Write-Warning $Message 
+        			$LevelText = 'WARNING:' 
+      			} 
+      			'Info' { 
+        			Write-Verbose $Message 
+        			$LevelText = 'INFO:' 
+      			} 
+    		} 
          
-    # Write log entry to $Path 
-    "$FormattedDate $LevelText $Message" | Out-File -FilePath $Path -Append 
-  }
+    		# Write log entry to $Path 
+    		"$FormattedDate $LevelText $Message" | Out-File -FilePath $Path -Append 
+  	}
 	
-  End 
-  { 
-  }
+  	End 
+  	{ 
+  	}
 	
 }
