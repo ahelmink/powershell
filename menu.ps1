@@ -42,9 +42,9 @@ Function Show-Menu
 }
 
 Show-Menu –Title 'My Menu'
-$selection = Read-Host "Please make a selection"
+$Selection = Read-Host "Please make a selection"
 
-Switch ($selection)
+Switch ($Selection)
 {
   '1' {
     Write-Host "You chose option #1"
