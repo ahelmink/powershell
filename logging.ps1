@@ -82,7 +82,8 @@ Function Write-Log
     $FormattedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss" 
  
     # Write message to error, warning, or verbose pipeline and specify $LevelText 
-    Switch ($Level) { 
+    Switch ($Level) 
+    { 
       'Error' { 
         Write-Error $Message 
         $LevelText = 'ERROR:' 
