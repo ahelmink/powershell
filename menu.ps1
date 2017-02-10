@@ -41,21 +41,22 @@ Function Show-Menu
   Write-Host "Q: Press 'Q' to quit."
 }
 
-Show-Menu –Title 'My Menu'
-$Selection = Read-Host "Please make a selection"
-
-Switch ($Selection)
+Do
 {
-  '1' {
-    Write-Host "You chose option #1"
-  } 
-  '2' {
-    Write-Host "You chose option #2"
-  } 
-  '3' {
-    Write-Host "You chose option #3"
-  } 
-  'q' {
-    Return
+  Show-Menu -Title 'My Menu'
+  $Selection = Read-Host "Please make a selection"
+  Switch ($Selection)
+  {
+    '1' {
+      Write-Host "You chose option #1"
+    } 
+    '2' {
+      Write-Host "You chose option #2"
+    } 
+    '3' {
+      Write-Host "You chose option #3"
+    }
   }
+  Pause
 }
+Until ($Selection -eq 'q')
